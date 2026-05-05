@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Is The Start — Your Dating Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --gray-dark: #1a1a1a;
+    --gray-mid: #2e2e2e;
+    --gray-light: #888;
+    --gray-accent: #aaa;
+    --white: #f0ede8;
+    --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: var(--grain);
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 50;
+    background: linear-gradient(to bottom, rgba(8,8,8,0.9), transparent);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .nav-cta {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray-accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gray-mid);
+    padding-bottom: 2px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+
+  .nav-cta:hover { color: var(--white); border-color: var(--gray-accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(80,80,80,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gray-light);
+    margin-bottom: 32px;
+    animation: fadeUp 1s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 10vw, 110px);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -1px;
+    color: var(--white);
+    margin-bottom: 8px;
+    animation: fadeUp 1s ease 0.1s both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gray-accent);
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(16px, 3vw, 22px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gray-light);
+    margin-top: 20px;
+    margin-bottom: 64px;
+    letter-spacing: 1px;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+
+  /* WAITLIST FORM */
+  .waitlist-form {
+    display: flex;
+    gap: 0;
+    max-width: 480px;
+    width: 100%;
+    animation: fadeUp 1s ease 0.3s both;
+    border: 1px solid var(--gray-mid);
+  }
+
+  .waitlist-form input {
+    flex: 1;
+    background: var(--gray-dark);
+    border: none;
+    padding: 16px 20px;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    outline: none;
+  }
+
+  .waitlist-form input::placeholder { color: var(--gray-light); }
+
+  .waitlist-form button {
+    background: var(--white);
+    color: var(--black);
+    border: none;
+    padding: 16px 28px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .waitlist-form button:hover { background: var(--gray-accent); }
+
+  .waitlist-note {
+    margin-top: 16px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gray-light);
+    text-transform: uppercase;
+    animation: fadeUp 1s ease 0.4s both;
+  }
+
+  .success-msg {
+    display: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--gray-accent);
+    margin-top: 8px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--gray-mid), transparent);
+    margin: 0 auto;
+  }
+
+  /* FEATURES */
+  .features {
+    padding: 100px 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gray-light);
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--gray-mid);
+    border: 1px solid var(--gray-mid);
+  }
+
+  .feature {
+    background: var(--black);
+    padding: 48px 36px;
+    transition: background 0.3s;
+  }
+
+  .feature:hover { background: var(--gray-dark); }
+
+  .feature-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--gray-mid);
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  .feature-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .feature-desc {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--gray-light);
+    font-weight: 300;
+  }
+
+  /* MANIFESTO */
+  .manifesto {
+    padding: 120px 24px;
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .manifesto-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(24px, 4vw, 40px);
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--white);
+    margin-bottom: 48px;
+  }
+
+  .manifesto-text em {
+    font-style: italic;
+    color: var(--gray-accent);
+  }
+
+  .manifesto-sub {
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--gray-light);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+
+  /* PILLARS */
+  .pillars {
+    padding: 80px 24px 120px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .pillars-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 48px;
+    margin-top: 64px;
+  }
+
+  .pillar {
+    border-top: 1px solid var(--gray-mid);
+    padding-top: 24px;
+  }
+
+  .pillar-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .pillar-desc {
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--gray-light);
+  }
+
+  /* BOTTOM CTA */
+  .bottom-cta {
+    padding: 120px 24px;
+    text-align: center;
+    border-top: 1px solid var(--gray-mid);
+  }
+
+  .bottom-cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 300;
+    margin-bottom: 16px;
+  }
+
+  .bottom-cta-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--gray-light);
+    margin-bottom: 48px;
+  }
+
+  .bottom-form {
+    display: flex;
+    gap: 0;
+    max-width: 480px;
+    width: 100%;
+    margin: 0 auto;
+    border: 1px solid var(--gray-mid);
+  }
+
+  .bottom-form input {
+    flex: 1;
+    background: var(--gray-dark);
+    border: none;
+    padding: 16px 20px;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    outline: none;
+  }
+
+  .bottom-form input::placeholder { color: var(--gray-light); }
+
+  .bottom-form button {
+    background: var(--white);
+    color: var(--black);
+    border: none;
+    padding: 16px 28px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .bottom-form button:hover { background: var(--gray-accent); }
+
+  .bottom-success {
+    display: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--gray-accent);
+    animation: fadeUp 0.5s ease both;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--gray-dark);
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray-light);
+  }
+
+  .footer-note {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gray-mid);
+    text-transform: uppercase;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 20px 24px; }
+    .waitlist-form { flex-direction: column; }
+    .waitlist-form button { padding: 14px; }
+    .bottom-form { flex-direction: column; }
+    .bottom-form button { padding: 14px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Love Is The Start</div>
+  <a href="#waitlist" class="nav-cta">Join the Waitlist</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-eyebrow">Coming Soon · Seattle, WA</div>
+  <h1 class="hero-title">Love Is<br><em>The Start</em></h1>
+  <p class="hero-subtitle">Your dating companion.</p>
+
+  <div class="waitlist-form" id="waitlist">
+    <input type="email" id="hero-email" placeholder="Your email address" />
+    <button onclick="joinWaitlist('hero-email', 'hero-success')">Join Waitlist</button>
+  </div>
+  <div class="success-msg" id="hero-success">You're on the list. Love is coming.</div>
+  <p class="waitlist-note">No spam. No noise. Just your start.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- MANIFESTO -->
+<section class="manifesto fade-in">
+  <p class="manifesto-text">
+    Every app is built to keep you single.<br>
+    <em>We're built to find you someone real.</em>
+  </p>
+  <p class="manifesto-sub">
+    The algorithm doesn't ask what you want. It watches what you do.<br>
+    It learns your patterns before you recognize them yourself.<br>
+    It protects you from people who will waste your time.<br>
+    And it stays with you long after the first date.
+  </p>
+</section>
+
+<div class="divider"></div>
+
+<!-- FEATURES -->
+<section class="features fade-in">
+  <div class="section-label">How It Works</div>
+  <div class="features-grid">
+    <div class="feature">
+      <div class="feature-number">01</div>
+      <div class="feature-title">The AI Learns You</div>
+      <p class="feature-desc">Not from what you say you want. From what you actually do. Your swipes, your conversations, your patterns — it builds a picture of your real type before you've figured it out yourself.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-number">02</div>
+      <div class="feature-title">Quality Over Volume</div>
+      <p class="feature-desc">Limited likes for everyone. No spray and pray. No being flooded. Every like means something because it costs something. Message with your like — show up with intention or don't show up.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-number">03</div>
+      <div class="feature-title">The Companion</div>
+      <p class="feature-desc">Check in after every date. The AI watches for patterns you can't see yet — hot and cold behavior, love bombing, red flags that only show up over time. Your honest friend who has no emotional stake.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-number">04</div>
+      <div class="feature-title">Integrity Score</div>
+      <p class="feature-desc">Hidden. Always running. Does your behavior match your stated intentions? People who are honest about what they want get matched with people who are honest too. Players find each other. Real ones find each other.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-number">05</div>
+      <div class="feature-title">Safety First</div>
+      <p class="feature-desc">ID verified profiles. Date check-ins with emergency contact alerts. Live location sharing. Background check badges. AI monitoring for threatening language. Built for women. Built for everyone.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-number">06</div>
+      <div class="feature-title">Drive Time Distance</div>
+      <p class="feature-desc">25 miles in Seattle can be 20 minutes or 2 hours. We use drive time not mileage because distance is about your life not a map. See people who are actually close to you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars fade-in">
+  <div class="section-label">What We Believe</div>
+  <div class="pillars-list">
+    <div class="pillar">
+      <div class="pillar-title">Attraction is real</div>
+      <p class="pillar-desc">Physical attraction is the first stage of love. We don't pretend otherwise. The AI learns your actual type from your behavior — not your stated preferences.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">Honesty wins</div>
+      <p class="pillar-desc">Say you want something casual — great. Say you want marriage — great. The app rewards honesty and protects genuine people from those who aren't.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">You don't know yourself yet</div>
+      <p class="pillar-desc">We don't always know what we don't know. The AI sees patterns in your choices before you recognize them. Sometimes the best match is someone you wouldn't have swiped on.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">Love is just the start</div>
+      <p class="pillar-desc">We don't disappear after the match. The companion stays with you through dating, relationships, and everything that comes after. This is a lifelong tool, not a temporary fix.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section class="bottom-cta fade-in">
+  <h2 class="bottom-cta-title">Be real.<br>Find real.</h2>
+  <p class="bottom-cta-sub">Launching soon in Seattle.</p>
+  <div class="bottom-form">
+    <input type="email" id="bottom-email" placeholder="Your email address" />
+    <button onclick="joinWaitlist('bottom-email', 'bottom-success')">Join Waitlist</button>
+  </div>
+  <div class="bottom-success success-msg" id="bottom-success">You're on the list. Love is coming.</div>
+</section>
+
+<footer>
+  <div class="footer-logo">Love Is The Start</div>
+  <div class="footer-note">© 2026 · loveisthestart.com</div>
+</footer>
+
+<script>
+  // Waitlist
+  function joinWaitlist(inputId, successId) {
+    const input = document.getElementById(inputId);
+    const success = document.getElementById(successId);
+    const email = input.value.trim();
+    if (!email || !email.includes('@')) {
+      input.style.borderBottom = '1px solid #888';
+      input.focus();
+      return;
+    }
+    // Store locally for now
+    const list = JSON.parse(localStorage.getItem('waitlist') || '[]');
+    list.push({ email, date: new Date().toISOString() });
+    localStorage.setItem('waitlist', JSON.stringify(list));
+
+    input.parentElement.style.display = 'none';
+    success.style.display = 'block';
+  }
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
